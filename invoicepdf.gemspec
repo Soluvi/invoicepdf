@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
     "lib/invoice/line_item.rb",
     "lib/invoicepdf.rb"
   ]
-  s.homepage = %q{http://github.com/drewtempelmeyer/invoicepdf}
+  s.homepage = %q{http://github.com/AndreiGorin/invoicepdf}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{invoicepdf}
