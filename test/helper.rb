@@ -12,7 +12,11 @@ require 'shoulda'
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
-require 'invoice'
+require 'invoice/invoice'
+require 'invoice/helpers'
+require 'invoice/line_item'
+require 'prawn'
+require 'generators/standard'
 
 class Test::Unit::TestCase
 end
