@@ -13,12 +13,12 @@ require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "invoicepdf"
-  gem.homepage = "http://github.com/drewtempelmeyer/invoicepdf"
+  gem.homepage = "http://github.com/AndreiGorin/invoicepdf"
   gem.license = "MIT"
   gem.summary = %Q{Easily create PDF invoices}
   gem.description = %Q{Easily create PDF invoices}
-  gem.email = "drewtemp@gmail.com"
-  gem.authors = ["Drew Tempelmeyer"]
+  gem.email = "axidium@gmail.com"
+  gem.authors = ["A A"]
   gem.add_runtime_dependency 'prawn'
   gem.files = FileList['Rakefile', 'lib/**/*.rb', 'init.rb']
   gem.rubyforge_project = 'invoicepdf'
