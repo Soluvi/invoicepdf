@@ -36,5 +36,15 @@ class TestInvoice < Test::Unit::TestCase
     invoice.save
     assert_equal true, File.exist?('invoice.pdf')
   end
-  
+
+  should "render pdf" do
+    invoice = InvoicePDF::Invoice.new({ :company => 'Company Name LTD', :bill_to => 'John Smith', :notes => 'Notes Sample Text.' })
+
+    40.times do |i|
+      invoice.items << InvoicePDF::LineItem.new({ :description => "This is a line item#{i}", :price => rand(100..500), :quantity => rand(1..100) })
+    end
+    invoice.paid = 20000
+    pdf = invoice.render
+    assert_equal true, (pdf.class == Prawn::Document)
+  end
 end

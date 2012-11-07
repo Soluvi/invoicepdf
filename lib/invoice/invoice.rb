@@ -77,6 +77,10 @@ module InvoicePDF
     def save
       generator.create_pdf( self )
     end
-    
+
+    def render
+      generator.create_pdf( self, false )
+    end
+
   end
 end

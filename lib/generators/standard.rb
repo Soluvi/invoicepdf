@@ -11,7 +11,7 @@ module InvoicePDF
       def initialize( options = {} ); end
 
       # Called from <tt>InvoicePDF::Invoice.save</tt>. +invoice+ is the <tt>InvoicePDF::Invoice</tt> instance.
-      def create_pdf( invoice )
+      def create_pdf( invoice, to_file = true )
         money_maker_options = {
             :currency_symbol => invoice.currency,
             :delimiter => invoice.separator,
@@ -19,7 +19,7 @@ module InvoicePDF
             :after_text => invoice.currency_text
         }
 
-        Prawn::Document.generate("#{invoice.file_path}/#{invoice.file_name}",
+        Prawn::Document.new(
                                  :dpi => 72,
                                  :page_size => 'A4',
                                  :page_layout => :portrait
@@ -71,7 +71,6 @@ module InvoicePDF
 
           # Create items array for storage of invoice items
           items = []
-          items_summary = []
           items << [ 'Description','Qty','Price','Total' ]
 
           cell_options = {:inline_format => true, :align => :right, :background_color => 'ffffff', :colspan => 3}
@@ -120,6 +119,8 @@ module InvoicePDF
             pdf.text 'Notes', :size => 10, :style => :bold
             pdf.text invoice.notes, :size => 8
           end
+
+          pdf.render_file "#{invoice.file_path}/#{invoice.file_name}" if to_file
 
         end
 
