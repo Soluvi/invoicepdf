@@ -54,7 +54,7 @@ module InvoicePDF
       return 0 if tax.nil? || tax <= 0
       amount = 0
       items.each { |item| amount += item.total if item.taxable? }
-      amount * ( tax / 100 )
+      amount * ( tax / 100.00 )
     end
     
     # Calculates the discount amount if a discount is specified greater than 0
