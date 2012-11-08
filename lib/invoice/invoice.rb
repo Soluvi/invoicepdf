@@ -60,7 +60,7 @@ module InvoicePDF
     # Calculates the discount amount if a discount is specified greater than 0
     def discount_amount
       return 0 if discount.nil? || discount <= 0
-      subtotal * ( discount / 100 )
+      subtotal * ( discount / 100.00 )
     end
     
     # Calculates the total of the invoice with the discount and tax amount applied
