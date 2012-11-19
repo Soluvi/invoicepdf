@@ -11,7 +11,7 @@ module InvoicePDF
       def initialize( options = {} ); end
 
       # Called from <tt>InvoicePDF::Invoice.save</tt>. +invoice+ is the <tt>InvoicePDF::Invoice</tt> instance.
-      def create_pdf( invoice, to_file = true )
+      def create_pdf( invoice, to_file = true, hide_quantity_column = false, hide_price_column = false )
         money_maker_options = {
             :currency_symbol => invoice.currency,
             :delimiter => invoice.separator,
@@ -20,9 +20,9 @@ module InvoicePDF
         }
 
         Prawn::Document.new(
-                                 :dpi => 72,
-                                 :page_size => 'A4',
-                                 :page_layout => :portrait
+            :dpi => 72,
+            :page_size => 'A4',
+            :page_layout => :portrait
 
         ) do |pdf|
           pdf.move_down 10
@@ -71,13 +71,25 @@ module InvoicePDF
 
           # Create items array for storage of invoice items
           items = []
-          items << [ 'Description','Qty','Price','Total' ]
+          headers = []
+          headers.push('Description')
+          headers.push('Qty') if !hide_quantity_column
+          headers.push('Price') if !hide_price_column
+          headers.push('Total')
 
-          cell_options = {:inline_format => true, :align => :right, :background_color => 'ffffff', :colspan => 3}
+          items << headers
+
+          cell_options = {:inline_format => true, :align => :right, :background_color => 'ffffff', :colspan => headers.length-1}
           cell_options_sum_number = { :background_color => 'f00ccf' }
 
           invoice.items.map { |item|
-            items << [ item.description, item.quantity, money_maker(item.price, money_maker_options), money_maker(item.total, money_maker_options) ]
+            columns = []
+            columns << item.description
+            columns << item.quantity if !hide_quantity_column
+            columns << money_maker(item.price, money_maker_options) if !hide_price_column
+            columns << money_maker(item.total, money_maker_options)
+            items << columns
+            #items << [ item.description, item.quantity, money_maker(item.price, money_maker_options), money_maker(item.total, money_maker_options) ]
           }
 
           # Insert subtotal
@@ -112,7 +124,6 @@ module InvoicePDF
             table.column_widths = { 1 => 50, 2 => 75, 3 => 75 }
             table.rows(0).background_color = 'f00ccf'  # Header color
           end
-
 
           unless invoice.notes.nil?
             pdf.move_down 50

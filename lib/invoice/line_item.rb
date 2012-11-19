@@ -1,7 +1,7 @@
 module InvoicePDF #:nodoc#
   # Line items for InvoicePDF::Invoice
   class LineItem    
-    attr_accessor :sku, :description, :price, :quantity, :taxable
+    attr_accessor :sku, :description, :price, :quantity, :taxable, :calculate_total
     
     # Creates a new <tt>LineItem</tt> to be added to the InvoicePDF::Invoice instance
     #
@@ -15,7 +15,14 @@ module InvoicePDF #:nodoc#
     # ==== Example
     #  item = InvoicePDF::InvoiceItem.new(:description => "Test line item", :price => 495.00, :quantity => 5)
     def initialize(options = {})
-      options = { :sku => nil, :description => nil, :quantity => 1, :price => 0.00, :taxable => false }.merge(options)
+      options = {
+          :sku => nil,
+          :description => nil,
+          :quantity => 1,
+          :price => 0.00,
+          :taxable => false ,
+          :calculate_total => true
+      }.merge(options)
       options.each { |k, v| send("#{k}=", v) }
     end
     
@@ -31,7 +38,11 @@ module InvoicePDF #:nodoc#
     #  item = InvoicePDF::InvoiceItem.new(:description => "Test line item", :price => 495.00, :quantity => 5)
     #  item.total # => 2475
     def total
-      price * quantity
+      if calculate_total
+        price * quantity
+      else
+        price
+      end
     end
     
   end

@@ -1,13 +1,13 @@
 
 # One module to rule them all
 module InvoicePDF
-  
+
   # Invoice model to create your PDF invoices.
   class Invoice
-    
+
     attr_accessor :generator, :file_name, :file_path, :company, :company_address, :bill_to, :bill_to_address, :invoice_date, :due_date,
-                  :number, :po_number, :items, :tax, :discount, :paid, :notes, :currency, :separator, :decimal, :currency_text
-    
+                  :number, :po_number, :items, :tax, :discount, :paid, :notes, :currency, :separator, :decimal, :currency_text, :hide_quantity_column, :hide_price_column
+
     # Creates a new Invoice object with the specified options
     # ==== Options
     # * <tt>:generator</tt>        - An <tt>InvoicePDF::Generator</tt> that designs and creates the PDF. (default is InvoicePDF::Generators::Standard.new)
@@ -36,19 +36,37 @@ module InvoicePDF
     #  invoice.items << InvoicePDF::LineItem.new(:description => "Here is a line item", :price => 495.00, :quantity => 5)
     #  invoice.save
     def initialize( options = {} )
-      options = { :generator => InvoicePDF::Generators::Standard.new, :file_path => './', :file_name => 'invoice.pdf', :company => 'Company Name', :number => '100',
-        :po_number => nil, :invoice_date => Time.now, :due_date => Time.now + ((60 * 60 * 24) * 15), :items => [], :discount => nil, :tax => nil, :paid => 0,
-        :notes => nil, :currency => '$', :separator => ',', :decimal => '.', :currency_text => '' }.merge(options)
+      options = {
+          :generator => InvoicePDF::Generators::Standard.new,
+          :file_path => './',
+          :file_name => 'invoice.pdf',
+          :company => 'Company Name',
+          :number => '100',
+          :po_number => nil,
+          :invoice_date => Time.now,
+          :due_date => Time.now + ((60 * 60 * 24) * 15),
+          :items => [],
+          :discount => nil,
+          :tax => nil,
+          :paid => 0,
+          :notes => nil,
+          :currency => '$',
+          :separator => ',',
+          :decimal => '.',
+          :currency_text => '',
+          :hide_quantity_column => false,
+          :hide_price_column => false
+      }.merge(options)
       options.each { |k,v| send("#{k}=", v) }
     end
-    
+
     # Calculates the subtotal of the invoice
     def subtotal
       amount = 0
       items.each { |item| amount += item.total }
       amount
     end
-    
+
     # Calculates the tax amount of the invoice based on taxable items
     def tax_amount
       return 0 if tax.nil? || tax <= 0
@@ -56,30 +74,30 @@ module InvoicePDF
       items.each { |item| amount += item.total if item.taxable? }
       amount * ( tax / 100.00 )
     end
-    
+
     # Calculates the discount amount if a discount is specified greater than 0
     def discount_amount
       return 0 if discount.nil? || discount <= 0
       subtotal * ( discount / 100.00 )
     end
-    
+
     # Calculates the total of the invoice with the discount and tax amount applied
     def total
       (subtotal - discount_amount) + tax_amount
     end
-    
+
     # The total amount due (total - paid)
     def total_due
       total - paid
     end
-    
+
     # Generates the PDF invoice and saves it to the specified destination
     def save
-      generator.create_pdf( self )
+      generator.create_pdf( self, true, hide_quantity_column, hide_price_column)
     end
 
     def render
-      generator.create_pdf( self, false )
+      generator.create_pdf( self, false, hide_quantity_column, hide_price_column )
     end
 
   end
