@@ -34,11 +34,11 @@ module InvoicePDF
           pdf.text invoice.company, :style => :bold, :size => 20
 
           # Invoice information
-          pdf.bounding_box [ pdf.bounds.right - 200, pdf.bounds.top - 2 ], :width => 250 do
+          pdf.bounding_box [ pdf.bounds.right - 125, pdf.bounds.top - 2 ], :width => 220 do
             data = [
-                [ Prawn::Table::Cell::Text.new( pdf, [0,0], :content => "<b>Invoice num</b>", :inline_format => true), invoice.number.to_s ],
-                [ Prawn::Table::Cell::Text.new( pdf, [0,0], :content => "<b>Invoice Date</b>", :inline_format => true), invoice.invoice_date.to_s ],
-                [ Prawn::Table::Cell::Text.new( pdf, [0,0], :content => "<b>Due Date</b>", :inline_format => true), invoice.due_date.to_s ]
+                [ Prawn::Table::Cell::Text.new( pdf, [0,0], :content => "<b>Invoice num</b>",   :inline_format => true), invoice.number.to_s ],
+                [ Prawn::Table::Cell::Text.new( pdf, [0,0], :content => "<b>Invoice Date</b>",  :inline_format => true), invoice.invoice_date.to_s ],
+                [ Prawn::Table::Cell::Text.new( pdf, [0,0], :content => "<b>Due Date</b>",      :inline_format => true), invoice.due_date.to_s ]
             ]
             data.insert( 1, [ Prawn::Table::Cell::Text.new( pdf, [0,0], :content => "<b>PO number</b>", :inline_format => true), invoice.po_number ] ) unless invoice.po_number.nil?
 
@@ -80,7 +80,7 @@ module InvoicePDF
           items << headers
 
           cell_options = {:inline_format => true, :align => :right, :background_color => 'ffffff', :colspan => headers.length-1}
-          cell_options_sum_number = { :background_color => 'f00ccf' }
+          cell_options_sum_number = { :background_color => 'CFCFCF' }
 
           invoice.items.map { |item|
             columns = []
@@ -122,7 +122,7 @@ module InvoicePDF
                         :border_width => 0
                     }) do |table|
             table.column_widths = { 1 => 50, 2 => 75, 3 => 75 }
-            table.rows(0).background_color = 'f00ccf'  # Header color
+            table.rows(0).background_color = 'CFCFCF'  # Header color
           end
 
           unless invoice.notes.nil?
