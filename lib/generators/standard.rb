@@ -114,7 +114,6 @@ module InvoicePDF
           pdf.table(items,
                     :header => true,
                     :width => pdf.bounds.right,
-                    :header => true,
                     :row_colors => [ 'ffffff', 'f0f0f0' ],
                     :cell_style => {
                         :borders => [:left, :right, :top, :bottom],
