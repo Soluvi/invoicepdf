@@ -19,8 +19,6 @@ Jeweler::Tasks.new do |gem|
   gem.description = %Q{Easily create PDF invoices}
   gem.email = "info@soluvi.com"
   gem.authors = ["A A"]
-  gem.add_runtime_dependency 'prawn'
-  gem.add_runtime_dependency 'prawn-table'
   gem.files = FileList['Rakefile', 'lib/**/*.rb', 'init.rb']
   gem.rubyforge_project = 'invoicepdf'
 end
