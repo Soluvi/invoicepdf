@@ -13,13 +13,14 @@ require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "invoicepdf"
-  gem.homepage = "http://github.com/AndreiGorin/invoicepdf"
+  gem.homepage = "http://github.com/Soluvi/invoicepdf"
   gem.license = "MIT"
   gem.summary = %Q{Easily create PDF invoices}
   gem.description = %Q{Easily create PDF invoices}
-  gem.email = "axidium@gmail.com"
+  gem.email = "info@soluvi.com"
   gem.authors = ["A A"]
-  gem.add_runtime_dependency 'prawn','>= 1.0.0.rc1'
+  gem.add_runtime_dependency 'prawn'
+  gem.add_runtime_dependency 'prawn-table'
   gem.files = FileList['Rakefile', 'lib/**/*.rb', 'init.rb']
   gem.rubyforge_project = 'invoicepdf'
 end
@@ -32,22 +33,22 @@ Rake::TestTask.new(:test) do |test|
   test.verbose = true
 end
 
-require 'rcov/rcovtask'
-Rcov::RcovTask.new do |test|
-  test.libs << 'test'
-  test.pattern = 'test/**/test_*.rb'
-  test.verbose = true
-end
-
+# require 'rcov/rcovtask'
+# Rcov::RcovTask.new do |test|
+#   test.libs << 'test'
+#   test.pattern = 'test/**/test_*.rb'
+#   test.verbose = true
+# end
+#
 task :default => :test
-
-require 'rake/rdoctask'
-Rake::RDocTask.new do |rdoc|
-  version = File.exist?('VERSION') ? File.read('VERSION') : ""
-
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "invoicepdf #{version}"
-  rdoc.options << '-f' << 'horo'
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
-end
+#
+# require 'rake/rdoctask'
+# Rake::RDocTask.new do |rdoc|
+#   version = File.exist?('VERSION') ? File.read('VERSION') : ""
+#
+#   rdoc.rdoc_dir = 'rdoc'
+#   rdoc.title = "invoicepdf #{version}"
+#   rdoc.options << '-f' << 'horo'
+#   rdoc.rdoc_files.include('README*')
+#   rdoc.rdoc_files.include('lib/**/*.rb')
+# end

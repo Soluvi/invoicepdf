@@ -16,6 +16,7 @@ require 'invoice/invoice'
 require 'invoice/helpers'
 require 'invoice/line_item'
 require 'prawn'
+require 'prawn/table'
 require 'generators/standard'
 
 class Test::Unit::TestCase

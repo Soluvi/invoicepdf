@@ -1,13 +1,15 @@
-source "http://rubygems.org"
+source 'http://rubygems.org'
 
-gem 'prawn', '1.0.0.rc1', :git => 'git://github.com/prawnpdf/prawn.git'
+gem 'prawn'
+gem 'prawn-table'
 
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
-group :development do
-  gem "shoulda", ">= 0"
-  gem "bundler"
-  gem "jeweler"
-  gem "rcov", ">= 0"
-  gem "horo"
+group :test do
+  gem 'bundler'
+  gem 'test-unit'
+  gem 'shoulda'
+  gem 'jeweler'
+  # gem 'rcov'
+  # gem 'horo'
 end
